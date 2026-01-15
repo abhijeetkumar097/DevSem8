@@ -14,6 +14,13 @@ minikube service hello-minikube
 # View all resources
 kubectl get all
 
+
+====================
+minikube pause(pause cluster)
+minikube unpause
+minikube ssh
+minikube ip
+minikube dashboard
 ====================
 Theory
 
