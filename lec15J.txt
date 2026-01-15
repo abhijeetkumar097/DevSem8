@@ -1,0 +1,25 @@
+Deploy Sample Application on Minikube
+# Create deployment
+kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0
+
+# Expose deployment as service
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
+
+# Get service URL
+minikube service hello-minikube --url
+
+# Open service in browser
+minikube service hello-minikube
+
+# View all resources
+kubectl get all
+
+====================
+Theory
+
+AZ -> AVAILABILITY ZONE
+
+ECR -> Elastic Container Registry
+EBS -> ELASTIC BLOCK STORAGE(bound to 1 AZ only)
+EFS -> ELASTIC FILE STORAGE (bound to multiple AZ)
+
