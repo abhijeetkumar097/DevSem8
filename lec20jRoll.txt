@@ -1,0 +1,80 @@
+nginx-deployment.yml(file)
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.21
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+
+
+---
+# commands
+---
+
+
+# Create Deployment
+kubectl apply -f nginx-deployment.yaml
+
+# View Deployments
+kubectl get deployments
+
+# Detailed deployment info
+kubectl describe deployment nginx-deployment
+
+# Update image (triggers rolling update)
+kubectl set image deployment/nginx-deployment nginx=nginx:1.22
+
+# Check rollout status
+kubectl rollout status deployment/nginx-deployment
+
+# View rollout history
+kubectl rollout history deployment/nginx-deployment
+
+# Rollback to previous version
+kubectl rollout undo deployment/nginx-deployment
+
+# Rollback to specific revision
+kubectl rollout undo deployment/nginx-deployment --to-revision=2
+
+# Scale deployment
+kubectl scale deployment nginx-deployment --replicas=5
+
+# Pause deployment
+kubectl rollout pause deployment/nginx-deployment
+
+# Resume deployment
+kubectl rollout resume deployment/nginx-deployment
